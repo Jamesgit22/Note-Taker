@@ -18,8 +18,6 @@ app.use('/notes', html);
 
 app.listen(port, () => console.log(`listening on port ${port} http://localhost:${port}`))
 
-//
-
 
 
 
