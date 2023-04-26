@@ -1,8 +1,6 @@
 // Import Express
 
 const express = require("express");
-// const path = require('path');
-// const notesData = require('./db/db.json');
 const fs = require("fs");
 const api = require("./routes/api/index.js");
 const html = require("./routes/html/index.js");
