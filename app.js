@@ -6,7 +6,7 @@ const express = require("express");
 const fs = require('fs');
 const api = require('./routes/api/index.js')
 const html = require('./routes/html/index.js')
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use('/notes', html);
 
 app.listen(port, () => console.log(`listening on port ${port} http://localhost:${port}`))
 
-
+//
 
 
 
