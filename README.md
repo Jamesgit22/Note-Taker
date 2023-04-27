@@ -46,6 +46,7 @@
   - Express
   - Heroku
   - Assistance provided by John Dinsmore
+  - Helper functions located in "helpers" folder
   
   ## License:
   
