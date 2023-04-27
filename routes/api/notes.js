@@ -1,16 +1,20 @@
 const notes = require("express").Router();
-const { readAndAppend } = require("../../helpers/fsUtils");
+const { readAndAppend, readFromFile } = require("../../helpers/fsUtils");
 const uuid = require("../../helpers/uuid");
-const notesData = require("../../db/db.json");
 const fs = require("fs");
 
 // Retrieve any existing notes from the database
-notes.get("/", (req, res) => res.json(notesData));
+notes.get("/", (req, res) => {
+  readFromFile("././db/db.json", "utf8").then(data => {
+    console.log(data);
+    res.status(200).send(data);
+  })
+
+});
 
 // Add new notes to the existing database
 notes.post("/", (req, res) => {
   const { title, text } = req.body;
-  console.log(notesData);
   // Check all variables are present
   if (title && text) {
     const newNote = {
@@ -19,7 +23,7 @@ notes.post("/", (req, res) => {
       id: uuid(),
     };
 
-    readAndAppend(newNote, "../db/db.json");
+    readAndAppend(newNote, "././db/db.json");
     res
       .status(200)
       .json(`Success: Added ${JSON.stringify(newNote)} to database.`);
@@ -29,7 +33,7 @@ notes.post("/", (req, res) => {
 });
 
 notes.delete("/:id", (req, res) => {
-  const data = fs.readFileSync("../db/db.json");
+  const data = fs.readFileSync("././db/db.json");
   const notesTest = JSON.parse(data);
   const index = notesTest.findIndex((note) => note.id === req.params.id);
 
