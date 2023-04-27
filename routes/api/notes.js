@@ -33,18 +33,19 @@ notes.post("/", (req, res) => {
 });
 
 notes.delete("/:id", (req, res) => {
-  const data = fs.readFileSync("././db/db.json");
-  const notesTest = JSON.parse(data);
-  const index = notesTest.findIndex((note) => note.id === req.params.id);
+  readFromFile("././db/db.json", "utf8").then(data => {
+    console.log(data);
+    const index = data.findIndex((note) => note.id === req.params.id);
 
-  if (index === -1) {
-    return res.status(404).send("Note not found");
-  }
-
-  notesTest.splice(index, 1);
-  fs.writeFileSync("../db/db.json", JSON.stringify(notesTest));
-
-  res.send("Note deleted successfully");
+    if (index === -1) {
+      return res.status(404).send("Note not found");
+    }
+  
+    data.splice(index, 1);
+    writeToFile("../db/db.json", JSON.stringify(data));
+  
+    res.send("Note deleted successfully");
+  });
 });
 
 module.exports = notes;
