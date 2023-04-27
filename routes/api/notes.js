@@ -19,7 +19,7 @@ notes.post("/", (req, res) => {
       id: uuid(),
     };
 
-    readAndAppend(newNote, "../../db/db.json");
+    readAndAppend(newNote, "../db/db.json");
     res
       .status(200)
       .json(`Success: Added ${JSON.stringify(newNote)} to database.`);
@@ -29,7 +29,7 @@ notes.post("/", (req, res) => {
 });
 
 notes.delete("/:id", (req, res) => {
-  const data = fs.readFileSync("../../db/db.json");
+  const data = fs.readFileSync("../db/db.json");
   const notesTest = JSON.parse(data);
   const index = notesTest.findIndex((note) => note.id === req.params.id);
 
@@ -38,7 +38,7 @@ notes.delete("/:id", (req, res) => {
   }
 
   notesTest.splice(index, 1);
-  fs.writeFileSync("././db/db.json", JSON.stringify(notesTest));
+  fs.writeFileSync("../db/db.json", JSON.stringify(notesTest));
 
   res.send("Note deleted successfully");
 });
