@@ -2,7 +2,7 @@ const notes = require("express").Router();
 const { readAndAppend } = require("../../helpers/fsUtils");
 const uuid = require("../../helpers/uuid");
 const notesData = require("../../db/db.json");
-const fs = require('fs');
+const fs = require("fs");
 
 // Retrieve any existing notes from the database
 notes.get("/", (req, res) => res.json(notesData));
@@ -19,7 +19,7 @@ notes.post("/", (req, res) => {
       id: uuid(),
     };
 
-    readAndAppend(newNote, "././db/db.json");
+    readAndAppend(newNote, "../../db/db.json");
     res
       .status(200)
       .json(`Success: Added ${JSON.stringify(newNote)} to database.`);
@@ -28,23 +28,19 @@ notes.post("/", (req, res) => {
   }
 });
 
-notes.delete('/:id', (req, res) => {
-  const data = fs.readFileSync('././db/db.json');
-  // Parse the JSON data to a JavaScript object
+notes.delete("/:id", (req, res) => {
+  const data = fs.readFileSync("../../db/db.json");
   const notesTest = JSON.parse(data);
-  
-  // Find the index of the note with the matching ID
-  const index = notesTest.findIndex(note => note.id === req.params.id);
-  
-  // If the note is not found, return an error response
-  if (index === -1) {
-    return res.status(404).send('Note not found');
-  }
-  
-  notesTest.splice(index, 1);
-  fs.writeFileSync('././db/db.json', JSON.stringify(notesTest));
+  const index = notesTest.findIndex((note) => note.id === req.params.id);
 
-  res.send('Note deleted successfully');
+  if (index === -1) {
+    return res.status(404).send("Note not found");
+  }
+
+  notesTest.splice(index, 1);
+  fs.writeFileSync("././db/db.json", JSON.stringify(notesTest));
+
+  res.send("Note deleted successfully");
 });
 
 module.exports = notes;

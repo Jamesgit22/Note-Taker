@@ -1,7 +1,6 @@
 // Import Express
 
 const express = require("express");
-const fs = require("fs");
 const api = require("./routes/api/index.js");
 const html = require("./routes/html/index.js");
 const port = process.env.PORT || 3000;
