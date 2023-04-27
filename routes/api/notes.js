@@ -1,15 +1,18 @@
 const notes = require("express").Router();
-const { readAndAppend, readFromFile, writeToFile } = require("../../helpers/fsUtils");
+const {
+  readAndAppend,
+  readFromFile,
+  writeToFile,
+} = require("../../helpers/fsUtils");
 const uuid = require("../../helpers/uuid");
 const fs = require("fs");
 
 // Retrieve any existing notes from the database
 notes.get("/", (req, res) => {
-  readFromFile("././db/db.json", "utf8").then(data => {
+  readFromFile("././db/db.json", "utf8").then((data) => {
     // console.log(data);
     res.status(200).send(data);
-  })
-
+  });
 });
 
 // Add new notes to the existing database
@@ -32,21 +35,20 @@ notes.post("/", (req, res) => {
   }
 });
 
+// Delete a note from the database endpoint
 notes.delete("/:id", (req, res) => {
-  readFromFile("././db/db.json", "utf8").then(data => {
-    console.log(data);
-    console.log(req.params.id)
+  readFromFile("././db/db.json", "utf8").then((data) => {
     const parsedData = JSON.parse(data);
     const index = parsedData.findIndex((note) => note.id === req.params.id);
 
     if (index === -1) {
       return res.status(404).send("Note not found");
     }
-  
+
     parsedData.splice(index, 1);
     writeToFile("././db/db.json", parsedData);
-  
-    res.status(200).json({ok: true});
+
+    res.status(200).json({ ok: true });
   });
 });
 
